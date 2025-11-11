@@ -301,7 +301,7 @@ class JoebbiCPU(BaseCPU):
 
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs) 
+        super().__init__(**kwargs)
 
         fs_fu = JoebbiDefaultFloatSimdFU(
             opLat   = self.fpu_operation_latency,

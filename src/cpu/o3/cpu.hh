@@ -63,6 +63,7 @@
 #include "cpu/o3/rename.hh"
 #include "cpu/o3/rob.hh"
 #include "cpu/o3/scoreboard.hh"
+#include "cpu/o3/wib.hh"   
 #include "cpu/o3/thread_state.hh"
 #include "cpu/activity.hh"
 #include "cpu/base.hh"
@@ -101,11 +102,11 @@ class CPU : public BaseCPU
   public:
     enum Status
     {
-        Running,
-        Idle,
-        Halted,
-        Blocked,
-        SwitchedOut
+      Running,
+      Idle,
+      Halted,
+      Blocked,
+      SwitchedOut
     };
 
     BaseMMU *mmu;
@@ -441,6 +442,10 @@ class CPU : public BaseCPU
 
     /** Integer Register Scoreboard */
     Scoreboard scoreboard;
+
+    /** WIB Enable */
+    bool enableWIB;
+    WIB wib;
 
     std::vector<TheISA::ISA *> isa;
 

@@ -60,7 +60,7 @@ if env['CONF']['TARGET_ISA'] != 'null':
     Source('scoreboard.cc')
     Source('stats.cc')
     Source('execute1.cc')
-    
+
     DebugFlag('JoebbiCPU', 'Joebbi CPU-level events')
     DebugFlag('JoebbiExecute', 'Joebbi Execute stage')
     DebugFlag('JoebbiInterrupt', 'Joebbi interrupt handling')

@@ -71,6 +71,9 @@ class BaseO3CPU(BaseCPU):
     def support_take_over(cls):
         return True
 
+    enableWIB = Param.Bool(False, "Enable write instruction buffer")
+    wibWidth = Param.Unsigned(100, "WIB width")
+
     activity = Param.Unsigned(0, "Initial count")
 
     cacheStorePorts = Param.Unsigned(200, "Cache Ports. "

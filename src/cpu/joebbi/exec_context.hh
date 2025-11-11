@@ -48,13 +48,13 @@
 #ifndef __CPU_JOEBBI_EXEC_CONTEXT_HH__
 #define __CPU_JOEBBI_EXEC_CONTEXT_HH__
 
+#include "cpu/base.hh"
 #include "cpu/exec_context.hh"
 #include "cpu/joebbi/execute.hh"
 #include "cpu/joebbi/pipeline.hh"
-#include "cpu/base.hh"
 #include "cpu/simple_thread.hh"
-#include "mem/request.hh"
 #include "debug/JoebbiExecute.hh"
+#include "mem/request.hh"
 
 namespace gem5
 {

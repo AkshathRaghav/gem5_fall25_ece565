@@ -126,7 +126,7 @@ class JoebbiCPU : public BaseCPU
     Port &getInstPort() override;
 
   public:
-    unsigned bpDegrade = 100; 
+    unsigned bpDegrade = 100;
 
     JoebbiCPU(const JoebbiCPUParams &params);
 

@@ -86,7 +86,6 @@ CPU::CPU(const BaseO3CPUParams &params)
       rename(this, params),
       iew(this, params),
       commit(this, params),
-
       regFile(params.numPhysIntRegs,
               params.numPhysFloatRegs,
               params.numPhysVecRegs,
@@ -99,6 +98,7 @@ CPU::CPU(const BaseO3CPUParams &params)
       rob(this, params),
 
       scoreboard(name() + ".scoreboard", regFile.totalNumPhysRegs()),
+      enableWIB(params.enableWIB),
 
       isa(numThreads, NULL),
 
@@ -248,6 +248,12 @@ CPU::CPU(const BaseO3CPUParams &params)
     lastActivatedCycle = 0;
 
     DPRINTF(O3CPU, "Creating O3CPU object.\n");
+
+    if (enableWIB) {
+        wib = std::make_unique<WIB>(*(BaseO3CPUParams*)this->params());
+        DPRINTF(WIB, "Constructed WIB (no-op)\n");
+        wib->setActive(true); // start periodic tick; harmless for now
+    }
 
     // Setup any thread state.
     thread.resize(numThreads);
