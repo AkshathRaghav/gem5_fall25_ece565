@@ -117,6 +117,28 @@ def get_processes(args):
 
 
 parser = argparse.ArgumentParser()
+
+
+parser.add_argument(
+    "--bp-accuracy",
+    type=int,
+    default=100,
+    help="Degrade predictor to this %% of original accuracy (0..100). 100=default behavior.",
+)
+# If/when you add these later, keep them optional:
+parser.add_argument(
+    "--fpu-operation-latency",
+    type=int,
+    default=None,
+    help="Float/SIMD FU opLat (if your CPU supports it).",
+)
+parser.add_argument(
+    "--fpu-issue-latency",
+    type=int,
+    default=None,
+    help="Float/SIMD FU issueLat (if your CPU supports it).",
+)
+
 Options.addCommonOptions(parser)
 Options.addSEOptions(parser)
 
@@ -124,6 +146,8 @@ if '--ruby' in sys.argv:
     Ruby.define_options(parser)
 
 args = parser.parse_args()
+
+print(args)
 
 multiprocesses = []
 numThreads = 1
@@ -164,10 +188,25 @@ if args.smt and args.num_cpus > 1:
 
 np = args.num_cpus
 mp0_path = multiprocesses[0].executable
-system = System(cpu = [CPUClass(cpu_id=i) for i in range(np)],
-                mem_mode = test_mem_mode,
-                mem_ranges = [AddrRange(args.mem_size)],
-                cache_line_size = args.cacheline_size)
+system = System(
+    cpu=[
+        CPUClass(
+            cpu_id=i,
+            bpDegrade=args.bp_accuracy,
+            fpu_operation_latency=(args.fpu_operation_latency),
+            fpu_issue_latency=(args.fpu_issue_latency)
+        ) for i in range(np)
+    ],
+    mem_mode=test_mem_mode,
+    mem_ranges=[AddrRange(args.mem_size)],
+    cache_line_size=args.cacheline_size
+)
+
+system.cpu[0].decodeInputWidth = 1 
+system.cpu[0].executeInputWidth = 1
+
+# system.cpu[0].executeIssueLimit = 1
+# system.cpu[0].executeCommitLimit = 1
 
 if numThreads > 1:
     system.multi_thread = True
@@ -214,7 +253,10 @@ if args.simpoint_profile:
     if np > 1:
         fatal("SimPoint generation not supported with more than one CPUs")
 
+
+        
 for i in range(np):
+
     if args.smt:
         system.cpu[i].workload = multiprocesses
     elif len(multiprocesses) == 1:

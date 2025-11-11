@@ -138,6 +138,7 @@ class AbstractCore(SubSystem):
             CPUTypes.TIMING : "TimingSimpleCPU",
             CPUTypes.KVM : "KvmCPU",
             CPUTypes.MINOR : "MinorCPU",
+            CPUTypes.JOEBBI : "JoebbiCPU",
         }
 
         if isa not in _isa_string_map:

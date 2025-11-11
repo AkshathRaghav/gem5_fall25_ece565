@@ -1,0 +1,1 @@
+./build/ECE565-ARM/gem5.opt configs/example/se.py --cpu-type=JJoebbiCPU --bp-accuracy=50  --fpu-operation-latency=4 --fpu-issue-latency=3  -c /home/yara/mithuna2/gem5-Fall2022/daxpy-armv7-binary --caches --l2cache --maxinsts=1000000
